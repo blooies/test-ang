@@ -63,6 +63,7 @@ class TodoApp {
   }
 
   removeAction() {
+    console.log('removed')
     this.currentTodo = null;
   }
 
@@ -74,4 +75,5 @@ class TodoApp {
 
 }
 
-bootstrap(TodoApp);
+
+bootstrap(Tod);

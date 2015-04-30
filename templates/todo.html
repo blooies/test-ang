@@ -1,33 +1,92 @@
 <style>
     @import url(http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css);
     @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+    @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
 </style>
+
 <style>
-    .container{
+    .container {
         font-family: 'Open Sans', sans-serif;
     }
-    .done{
+    .done {
         text-decoration: line-through;
         color : #999999;
     }
-    .container{
+    .container {
         margin-top: 200px;
+        width: 360px;
     }
+    
     .bottom-offset{
         margin-bottom: 20px;
+    }
+
+    .editing, .edit-todo {
+        display: none;
+    }
+
+    .showEditing {
+        display: block;
+    }
+    
+    .trash:hover, .edit:hover {
+        cursor: pointer;
+    }
+
+    .title {
+        background-color: #3498db;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        color: #fff;
+    }
+
+    .title h1 {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .action {
+        display: none;
+        position: absolute;
+        right: 0;
+    }
+
+    .takeAction {
+        display: inline-block;
+        position: absolute;
+        right: 15;
+        transition: .5s ease-in;
+    }
+
+    .item {
+        position: relative;
+    }
+
+    .edit-todo{
+        border: none;
+        outline: none;
+        box-shadow: none;
+        border-bottom: 1px #3498db !important;
+        border-radius: 0;
+        margin-bottom: 10px;
     }
 </style>
 
 <div class="container">
-    <div class="row">
-        <div class="col-xs-4 col-xs-offset-4">
-            <div class="bottom-offset">
-                <input type="text" class="form-control" placeholder="Write something here" autofocus #newtodo (keyup)="add($event,newtodo)"/>
-            </div>
-            <div *foreach="#todo in todoStore.todoList">
-                <input type="checkbox" [checked]="todo.done" (click)="toggleTodoState(todo)"/> <span [class.done]="todo.done">{{todo.text}}</span>
+    <div class="bottom-offset">
+        <div class='add'></div>
+        <div class='title'><h1>Let's do things</h1></div>
+        <input type="text" class="form-control" placeholder="Let's do things." autofocus #newtodo (keyup)="add($event,newtodo)"/>
+    </div>
+    <div *foreach="#todo in todoStore.todoList" class='item' (mouseenter)="showAction(todo)" (mouseleave)="removeAction()">
+        <div [class.editing] = "editing(todo)" class=''>
+           <span [class.done]="todo.done" (dblclick) ="editTodo($event,todo)">{{todo.text}}</span>
+
+            <div class='action' [class.takeAction]="currentTodo(todo)">
+                <div class="fa fa-check edit" (click)="toggleTodoState(todo)"></div>
+                <div class="fa fa-trash-o trash" (click)="removeTodo(todo)"></div>
             </div>
         </div>
-        <div class="col-xs-4"></div>
+        <input type="text" [class.showEditing]="editing(todo)" class= "edit-todo" [value]="todo.text" (keyup)="finishedEditing($event, todo)" (focusout)="finishedEditing($event, todo)" autofocus/>
     </div>
 </div>

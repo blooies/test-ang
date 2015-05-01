@@ -23,7 +23,7 @@ class TodoApp {
   constructor(todoStore: TodoStore) {
     this.todoStore = todoStore;
     this.toDoEdit = null;
-    this.currentToDo = null;
+    this.currentTodo = null;
   }
 
   add($event,newtodo){
@@ -43,7 +43,7 @@ class TodoApp {
 
   editing(todo) {
     if (this.toDoEdit == todo) {
-      return true
+      return true;
     }
   }
 
@@ -59,15 +59,15 @@ class TodoApp {
   }
 
   showAction(todo) {
-    this.currentToDo = todo;
+    this.currentTodo = todo;
   }
 
   removeAction() {
     this.currentTodo = null;
   }
 
-  currentTodo(todo) {
-    if (this.currentToDo === todo) {
+  isCurrentTodo(todo) {
+    if (this.currentTodo === todo) {
       return true;
     }
   }

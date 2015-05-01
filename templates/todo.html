@@ -21,14 +21,10 @@
         margin-bottom: 20px;
     }
 
-    .editing, .edit-todo {
+    .editing, .edit-box {
         display: none;
     }
 
-    .showEditing {
-        display: block;
-    }
-    
     .trash:hover, .edit:hover {
         cursor: pointer;
     }
@@ -51,24 +47,29 @@
         right: 0;
     }
 
-    .takeAction {
+    .showBtns {
         display: inline-block;
         position: absolute;
         right: 15;
-        transition: .5s ease-in;
     }
 
     .item {
         position: relative;
     }
 
-    .edit-todo{
+    .edit-box {
+        display: none;
+    }
+
+    .editing-box {
+        display: block;
         border: none;
         outline: none;
         box-shadow: none;
-        border-bottom: 1px #3498db !important;
+        border-bottom: 1px solid #3498db !important;
         border-radius: 0;
         margin-bottom: 10px;
+        width: 100%;
     }
 </style>
 
@@ -76,17 +77,17 @@
     <div class="bottom-offset">
         <div class='add'></div>
         <div class='title'><h1>Let's do things</h1></div>
-        <input type="text" class="form-control" placeholder="Let's do things." autofocus #newtodo (keyup)="add($event,newtodo)"/>
+        <input type="text" class="form-control" placeholder="do what?" autofocus #newtodo (keyup)="add($event,newtodo)"/>
     </div>
     <div *foreach="#todo in todoStore.todoList" class='item' (mouseenter)="showAction(todo)" (mouseleave)="removeAction()">
-        <div [class.editing] = "editing(todo)" class=''>
+        <div [class.editing] = "editing(todo)">
            <span [class.done]="todo.done" (dblclick) ="editTodo($event,todo)">{{todo.text}}</span>
 
-            <div class='action' [class.takeAction]="currentTodo(todo)">
+            <div class='action' [class.showBtns]="isCurrentTodo(todo)">
                 <div class="fa fa-check edit" (click)="toggleTodoState(todo)"></div>
                 <div class="fa fa-trash-o trash" (click)="removeTodo(todo)"></div>
             </div>
         </div>
-        <input type="text" [class.showEditing]="editing(todo)" class= "edit-todo" [value]="todo.text" (keyup)="finishedEditing($event, todo)" (focusout)="finishedEditing($event, todo)" autofocus/>
+        <input type="text" [class.editing-box]="editing(todo)" class='edit-box' [value]="todo.text" (keyup)="finishedEditing($event, todo)" (focusout)="finishedEditing($event, todo)"/>
     </div>
 </div>
